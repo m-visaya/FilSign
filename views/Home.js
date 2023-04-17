@@ -12,7 +12,7 @@ import { FontAwesome5, Feather } from "@expo/vector-icons";
 import { images } from "./utils";
 
 const HomeScreen = ({ navigation }) => {
-  const Illust1 = require("../assets/Home.jpg");
+  const Illust1 = require("../assets/Home.png");
   const Logo = require("../assets/icon.png");
 
   return (

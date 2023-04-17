@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Box, Text, Center, Icon, IconButton } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
+import { API_ENDPOINT } from "@env";
 
 export default function Live({ navigation }) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -12,23 +13,26 @@ export default function Live({ navigation }) {
   const [cameraType, setCameraType] = useState(CameraType.back);
 
   const captureFrame = async () => {
-    if (!cameraRef.current) return;
-
-    cameraRef.current
-      .takePictureAsync({
-        quality: 0,
-        base64: true,
-      })
-      .then((img) => {
-        const base64 = img.base64;
-        setCurrImage(base64);
-      });
+    // if (!cameraRef.current) return;
+    try {
+      cameraRef.current
+        .takePictureAsync({
+          quality: 0,
+          base64: true,
+        })
+        .then((img) => {
+          const base64 = img.base64;
+          setCurrImage(base64);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     if (currImage) {
       axios
-        .post("http://localhost:port/sendtensor", {
+        .post(API_ENDPOINT, {
           image: currImage,
         })
         .then((res) => {
@@ -76,6 +80,30 @@ export default function Live({ navigation }) {
           }
           onPress={() => navigation.navigate("Home")}
         ></IconButton>
+        <IconButton
+          borderRadius="full"
+          colorScheme={"light"}
+          variant="ghost"
+          position={"absolute"}
+          top={"8"}
+          right={"2"}
+          zIndex={"20"}
+          icon={
+            <Icon
+              as={Ionicons}
+              name="camera-reverse"
+              size={"2xl"}
+              color="light.300"
+            />
+          }
+          onPress={() =>
+            setCameraType(
+              cameraType == CameraType.front
+                ? CameraType.back
+                : CameraType.front
+            )
+          }
+        ></IconButton>
         <Camera
           style={{ height: "100%", width: "100%", aspectRatio: 3 / 4 }}
           type={cameraType}
@@ -88,41 +116,21 @@ export default function Live({ navigation }) {
           marginY="auto"
           width={"full"}
           flexDir={"row"}
-          height={"20"}
-          paddingX="6"
+          height={"24"}
           position={"absolute"}
           bottom="0"
           bgColor={"black"}
           opacity={60}
           zIndex={10}
         >
-          <Text fontSize={"3xl"} fontWeight={"semibold"} color="lightBlue.400">
+          <Text
+            fontSize={"6xl"}
+            fontWeight={"semibold"}
+            color="lightBlue.400"
+            lineHeight={"sm"}
+          >
             {prediction}
           </Text>
-          <IconButton
-            borderRadius="full"
-            colorScheme={"light"}
-            variant="ghost"
-            position={"absolute"}
-            bottom={"1"}
-            right={"2"}
-            zIndex={"20"}
-            icon={
-              <Icon
-                as={Ionicons}
-                name="camera-reverse"
-                size={"5xl"}
-                color="light.100"
-              />
-            }
-            onPress={() =>
-              setCameraType(
-                cameraType == CameraType.front
-                  ? CameraType.back
-                  : CameraType.front
-              )
-            }
-          ></IconButton>
         </Center>
       </Center>
     </Box>
