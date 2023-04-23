@@ -13,7 +13,7 @@ export default function Live({ navigation }) {
   const [cameraType, setCameraType] = useState(CameraType.back);
 
   const captureFrame = async () => {
-    // if (!cameraRef.current) return;
+    if (!cameraRef.current) return;
     try {
       cameraRef.current
         .takePictureAsync({

@@ -160,7 +160,7 @@ const HomeScreen = ({ navigation }) => {
               {images.map((val, idx) => (
                 <Box width={"43%"} marginBottom={"5"} marginX="auto" key={idx}>
                   <Image
-                    resizeMode="cover"
+                    resizeMode="contain"
                     height={"40"}
                     borderRadius={"2xl"}
                     source={val[0]}

@@ -1,44 +1,3 @@
-// const modelWeights = [
-//   require("../assets/model/group1-shard1of21.bin"),
-//   require("../assets/model/group1-shard2of21.bin"),
-//   require("../assets/model/group1-shard3of21.bin"),
-//   require("../assets/model/group1-shard4of21.bin"),
-//   require("../assets/model/group1-shard5of21.bin"),
-//   require("../assets/model/group1-shard6of21.bin"),
-//   require("../assets/model/group1-shard7of21.bin"),
-//   require("../assets/model/group1-shard8of21.bin"),
-//   require("../assets/model/group1-shard9of21.bin"),
-//   require("../assets/model/group1-shard10of21.bin"),
-//   require("../assets/model/group1-shard11of21.bin"),
-//   require("../assets/model/group1-shard12of21.bin"),
-//   require("../assets/model/group1-shard13of21.bin"),
-//   require("../assets/model/group1-shard14of21.bin"),
-//   require("../assets/model/group1-shard15of21.bin"),
-//   require("../assets/model/group1-shard16of21.bin"),
-//   require("../assets/model/group1-shard17of21.bin"),
-//   require("../assets/model/group1-shard18of21.bin"),
-//   require("../assets/model/group1-shard19of21.bin"),
-//   require("../assets/model/group1-shard20of21.bin"),
-//   require("../assets/model/group1-shard21of21.bin"),
-// ];
-
-// const modelWeights = [
-//   require("../assets/model/group1-shard1of7.bin"),
-//   require("../assets/model/group1-shard2of7.bin"),
-//   require("../assets/model/group1-shard3of7.bin"),
-//   require("../assets/model/group1-shard4of7.bin"),
-//   require("../assets/model/group1-shard5of7.bin"),
-//   require("../assets/model/group1-shard6of7.bin"),
-//   require("../assets/model/group1-shard7of7.bin"),
-// ];
-
-// const modelWeights = [
-//   require("../assets/model/group1-shard1of2.bin"),
-//   require("../assets/model/group1-shard2of2.bin"),
-// ];
-
-// const modelWeights = [require("../assets/model/group1-shard1of1.bin")];
-
 const images = [
   [require("../assets/images/1_A.jpg"), "A"],
   [require("../assets/images/2_B.jpg"), "B"],
@@ -69,18 +28,16 @@ const images = [
   [require("../assets/images/27_Boss.jpg"), "Boss"],
   [require("../assets/images/28_Father.jpg"), "Father"],
   [require("../assets/images/29_Good.jpg"), "Good"],
-  [require("../assets/images/30_Me.jpg"), "Me"],
-  [require("../assets/images/31_Mine.jpg"), "Mine"],
-  [require("../assets/images/32_Mother.jpg"), "Mother"],
-  [require("../assets/images/33_Onion.jpg"), "Onion"],
-  [require("../assets/images/34_Quiet.jpg"), "Quiet"],
-  [require("../assets/images/35_Responsible.jpg"), "Responsible"],
-  [require("../assets/images/36_Serious.jpg"), "Serious"],
-  [require("../assets/images/37_Think.jpg"), "Think"],
-  [require("../assets/images/38_This.jpg"), "This"],
-  [require("../assets/images/39_Wait.jpg"), "Wait"],
-  [require("../assets/images/40_Water.jpg"), "Water"],
-  [require("../assets/images/41_You.jpg"), "You"],
+  [require("../assets/images/30_I-love-you.jpg"), "I Love You"],
+  [require("../assets/images/31_Me.jpg"), "Me"],
+  [require("../assets/images/32_Mine.jpg"), "Mine"],
+  [require("../assets/images/33_Mother.jpg"), "Mother"],
+  [require("../assets/images/34_Serious.jpg"), "Serious"],
+  [require("../assets/images/35_Think.jpg"), "Think"],
+  [require("../assets/images/36_This.jpg"), "This"],
+  [require("../assets/images/37_Wait.jpg"), "Wait"],
+  [require("../assets/images/38_Water.jpg"), "water"],
+  [require("../assets/images/39_You.jpg"), "You"],
 ];
 
 export { images };
