@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Box, Text, Center, Icon, IconButton } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
-import { API_ENDPOINT } from "@env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Live({ navigation }) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -11,9 +11,10 @@ export default function Live({ navigation }) {
   const [currImage, setCurrImage] = useState(null);
   const cameraRef = useRef(null);
   const [cameraType, setCameraType] = useState(CameraType.back);
+  const [apiEndpoint, setApiEndpoint] = useState("");
 
   const captureFrame = async () => {
-    if (!cameraRef.current) return;
+    if (!cameraRef.current || !apiEndpoint) return;
     try {
       cameraRef.current
         .takePictureAsync({
@@ -30,9 +31,15 @@ export default function Live({ navigation }) {
   };
 
   useEffect(() => {
+    AsyncStorage.getItem("apiEndpoint").then((res) => {
+      setApiEndpoint(res);
+    });
+  }, []);
+
+  useEffect(() => {
     if (currImage) {
       axios
-        .post(API_ENDPOINT, {
+        .post(apiEndpoint + "/predict", {
           image: currImage,
         })
         .then((res) => {

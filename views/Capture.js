@@ -1,9 +1,9 @@
 import { Center, Text, IconButton, Icon, Box, Spinner } from "native-base";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { Camera, CameraType } from "expo-camera";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { API_ENDPOINT } from "@env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Capture({ navigation }) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -13,8 +13,15 @@ export default function Capture({ navigation }) {
   const [cameraType, setCameraType] = useState(CameraType.back);
   const [imageCaptured, setImageCaptured] = useState(false);
   const cameraReady = useRef(false);
+  const [apiEndpoint, setApiEndpoint] = useState("");
 
+  useEffect(() => {
+    AsyncStorage.getItem("apiEndpoint").then((res) => {
+      setApiEndpoint(res);
+    });
+  }, []);
   const captureFrame = async () => {
+    if (!cameraRef.current || !apiEndpoint) return;
     setIsCapturing(true);
     try {
       cameraRef.current
@@ -38,7 +45,7 @@ export default function Capture({ navigation }) {
   const predict = (b64image) => {
     if (b64image) {
       axios
-        .post(API_ENDPOINT, {
+        .post(apiEndpoint + "/predict", {
           image: b64image,
         })
         .then((res) => {

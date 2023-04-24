@@ -7,8 +7,14 @@ import {
   Image,
   Button,
   ScrollView,
+  IconButton,
+  Spacer,
 } from "native-base";
-import { FontAwesome5, Feather } from "@expo/vector-icons";
+import {
+  FontAwesome5,
+  Feather,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { images } from "./utils";
 
 const HomeScreen = ({ navigation }) => {
@@ -40,6 +46,19 @@ const HomeScreen = ({ navigation }) => {
             >
               FilSign
             </Text>
+            <Spacer></Spacer>
+            <IconButton
+              borderRadius="full"
+              colorScheme={"light"}
+              icon={
+                <Icon
+                  as={MaterialCommunityIcons}
+                  name="dots-vertical"
+                  size={"md"}
+                />
+              }
+              onPress={() => navigation.navigate("Config")}
+            ></IconButton>
           </HStack>
         </HStack>
         <Box style={{ flex: 1 }}>

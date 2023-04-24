@@ -8,21 +8,28 @@ import {
   Image,
 } from "native-base";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
-import { API_ENDPOINT } from "@env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Media({ navigation }) {
   const [prediction, setPrediction] = useState("");
   const [image, setImage] = useState(null);
   const [permission, requestPermission] =
     ImagePicker.useMediaLibraryPermissions();
+  const apiEndpoint = useRef("");
+
+  useEffect(() => {
+    AsyncStorage.getItem("apiEndpoint").then((res) => {
+      apiEndpoint.current = res;
+    });
+  }, []);
 
   const predict = (b64image) => {
     if (b64image) {
       axios
-        .post(API_ENDPOINT, {
+        .post(apiEndpoint.current + "/predict", {
           image: b64image,
         })
         .then((res) => {

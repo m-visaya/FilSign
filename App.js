@@ -6,6 +6,7 @@ import Live from "./views/Live";
 import Capture from "./views/Capture";
 import Media from "./views/Media";
 import { NativeBaseProvider } from "native-base";
+import Config from "./views/Config";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ const App = () => {
           <Stack.Screen name="Live" component={Live} />
           <Stack.Screen name="Capture" component={Capture} />
           <Stack.Screen name="Media" component={Media} />
+          <Stack.Screen name="Config" component={Config} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
