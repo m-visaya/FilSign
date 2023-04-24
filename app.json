@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#3FC1C9"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -19,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#3FC1C9"
-      }
+      },
+      "package": "com.Filsign.App"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d13a4ec4-dede-4d94-a04d-ec17078f712a"
+      }
     }
   }
 }
