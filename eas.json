@@ -11,8 +11,7 @@
       }
     },
     "preview": {
-      "distribution": "internal",
-      "developmentClient": true
+      "distribution": "internal"
     },
     "production": {
       "ios": {
