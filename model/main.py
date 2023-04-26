@@ -5,7 +5,7 @@ import numpy as np
 import cv2
 import base64
 
-model = YOLO('./model.onnx')
+model = YOLO('./model.pt')
 
 app = FastAPI()
 
