@@ -133,14 +133,13 @@ export default function Media({ navigation }) {
           position={"absolute"}
           bottom="0"
           bgColor={"black"}
-          opacity={60}
           zIndex={10}
         >
           {prediction === "" && (
             <Spinner size={"lg"} color="darkBlue.500"></Spinner>
           )}
           <Text
-            fontSize={"6xl"}
+            fontSize={"7xl"}
             fontWeight={"semibold"}
             color="lightBlue.400"
             lineHeight={"sm"}

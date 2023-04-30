@@ -127,11 +127,10 @@ export default function Live({ navigation }) {
           position={"absolute"}
           bottom="0"
           bgColor={"black"}
-          opacity={60}
           zIndex={10}
         >
           <Text
-            fontSize={"6xl"}
+            fontSize={"7xl"}
             fontWeight={"semibold"}
             color="lightBlue.400"
             lineHeight={"sm"}
