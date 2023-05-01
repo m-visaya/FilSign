@@ -7,6 +7,7 @@ import {
   Input,
   Button,
   FormControl,
+  useToast,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
@@ -17,6 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Config = ({ navigation }) => {
   const [apiEndpoint, setApiEndpoint] = useState("");
   const [apiInvalid, setApiInvalid] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
     AsyncStorage.getItem("apiEndpoint").then((res) => {
@@ -28,10 +30,24 @@ const Config = ({ navigation }) => {
     setApiInvalid(false);
 
     try {
+      if (apiEndpoint.endsWith("/")) {
+        setApiInvalid(true);
+        return;
+      }
       const response = await axios.get(apiEndpoint);
       if (response.data) {
         console.log(response.data);
         await AsyncStorage.setItem("apiEndpoint", apiEndpoint);
+
+        toast.show({
+          render: () => {
+            return (
+              <Box bg="teal.600" px="4" py="3" rounded="sm">
+                <Text color="white"> Endpoint saved </Text>
+              </Box>
+            );
+          },
+        });
       }
     } catch (error) {
       console.log(error);

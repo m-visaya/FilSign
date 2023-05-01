@@ -1,6 +1,6 @@
 import { Camera, CameraType } from "expo-camera";
 import { useState, useEffect, useRef } from "react";
-import { Box, Text, Center, Icon, IconButton } from "native-base";
+import { Box, Text, Center, Icon, IconButton, useToast } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -8,25 +8,42 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Live({ navigation }) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [prediction, setPrediction] = useState("");
-  const [currImage, setCurrImage] = useState(null);
   const cameraRef = useRef(null);
   const [cameraType, setCameraType] = useState(CameraType.back);
   const [apiEndpoint, setApiEndpoint] = useState("");
+  const toast = useToast();
+
+  const pendingFlip = useRef(false);
 
   const captureFrame = async () => {
     if (!cameraRef.current || !apiEndpoint) return;
+
     try {
-      cameraRef.current
-        .takePictureAsync({
-          quality: 0,
-          base64: true,
-        })
-        .then((img) => {
-          const base64 = img.base64;
-          setCurrImage(base64);
-        });
+      const image = await cameraRef.current.takePictureAsync({
+        skipPreprocessing: true,
+        base64: true,
+      });
+
+      if (pendingFlip.current) await flipCamera();
+
+      const response = await axios.post(apiEndpoint + "/predict", {
+        image: image.base64,
+      });
+
+      setPrediction(response.data.class), console.log(response.data.class);
+
+      captureFrame();
     } catch (error) {
       console.log(error);
+      toast.show({
+        render: () => {
+          return (
+            <Box bg="red.700" px="4" py="3" rounded="sm" mb={5}>
+              <Text color="white"> Something went wrong </Text>
+            </Box>
+          );
+        },
+      });
     }
   };
 
@@ -36,23 +53,14 @@ export default function Live({ navigation }) {
     });
   }, []);
 
-  useEffect(() => {
-    if (currImage) {
-      axios
-        .post(apiEndpoint + "/predict", {
-          image: currImage,
-        })
-        .then((res) => {
-          setPrediction(res.data.class), console.log(res.data.class);
-          captureFrame();
-        });
-    }
-  }, [currImage]);
-
-  useEffect(() => {
-    console.log("camera change");
-    captureFrame();
-  }, [cameraType]);
+  const flipCamera = async () => {
+    cameraRef.current.pausePreview();
+    setCameraType((prevState) =>
+      prevState == CameraType.front ? CameraType.back : CameraType.front
+    );
+    pendingFlip.current = false;
+    cameraRef.current.resumePreview();
+  };
 
   if (!permission) {
     return (
@@ -103,13 +111,7 @@ export default function Live({ navigation }) {
               color="light.300"
             />
           }
-          onPress={() =>
-            setCameraType(
-              cameraType == CameraType.front
-                ? CameraType.back
-                : CameraType.front
-            )
-          }
+          onPress={() => (pendingFlip.current = true)}
         ></IconButton>
         <Camera
           style={{ height: "100%", width: "100%", aspectRatio: 3 / 4 }}

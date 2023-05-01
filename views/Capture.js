@@ -1,4 +1,12 @@
-import { Center, Text, IconButton, Icon, Box, Spinner } from "native-base";
+import {
+  Center,
+  Text,
+  IconButton,
+  Icon,
+  Box,
+  Spinner,
+  useToast,
+} from "native-base";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { Camera, CameraType } from "expo-camera";
 import { useState, useRef, useEffect } from "react";
@@ -14,6 +22,7 @@ export default function Capture({ navigation }) {
   const [imageCaptured, setImageCaptured] = useState(false);
   const cameraReady = useRef(false);
   const [apiEndpoint, setApiEndpoint] = useState("");
+  const toast = useToast();
 
   useEffect(() => {
     AsyncStorage.getItem("apiEndpoint").then((res) => {
@@ -39,6 +48,15 @@ export default function Capture({ navigation }) {
     } catch (error) {
       console.log(error);
       setIsCapturing(false);
+      toast.show({
+        render: () => {
+          return (
+            <Box bg="red.700" px="4" py="3" rounded="sm" mb={5}>
+              <Text color="white"> Something went wrong </Text>
+            </Box>
+          );
+        },
+      });
     }
   };
 

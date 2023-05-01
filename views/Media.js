@@ -6,6 +6,7 @@ import {
   Box,
   Spinner,
   Image,
+  useToast,
 } from "native-base";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { useState, useEffect, useRef } from "react";
@@ -19,6 +20,7 @@ export default function Media({ navigation }) {
   const [permission, requestPermission] =
     ImagePicker.useMediaLibraryPermissions();
   const apiEndpoint = useRef("");
+  const toast = useToast();
 
   useEffect(() => {
     AsyncStorage.getItem("apiEndpoint").then((res) => {
@@ -53,6 +55,15 @@ export default function Media({ navigation }) {
       }
     } catch (error) {
       console.log(error);
+      toast.show({
+        render: () => {
+          return (
+            <Box bg="red.700" px="4" py="3" rounded="sm" mb={5}>
+              <Text color="white"> Something went wrong </Text>
+            </Box>
+          );
+        },
+      });
     }
   };
 
