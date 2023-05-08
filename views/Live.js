@@ -11,8 +11,10 @@ export default function Live({ navigation }) {
   const cameraRef = useRef(null);
   const [cameraType, setCameraType] = useState(CameraType.back);
   const [apiEndpoint, setApiEndpoint] = useState("");
+  const [predictionFontSize, setPredictionFontSize] = useState("5xl");
   const toast = useToast();
 
+  const controller = useRef(new AbortController());
   const pendingFlip = useRef(false);
 
   const captureFrame = async () => {
@@ -26,11 +28,25 @@ export default function Live({ navigation }) {
 
       if (pendingFlip.current) await flipCamera();
 
-      const response = await axios.post(apiEndpoint + "/predict", {
-        image: image.base64,
-      });
+      const response = await axios.post(
+        apiEndpoint + "/predict",
+        {
+          image: image.base64,
+        },
+        {
+          signal: controller.current?.signal,
+        }
+      );
 
-      setPrediction(response.data.class), console.log(response.data.class);
+      const prediction = response.data.class;
+
+      setPredictionFontSize("5xl");
+
+      if (prediction.length < 12) {
+        setPredictionFontSize("7xl");
+      }
+
+      setPrediction(prediction), console.log(prediction);
 
       captureFrame();
     } catch (error) {
@@ -51,6 +67,10 @@ export default function Live({ navigation }) {
     AsyncStorage.getItem("apiEndpoint").then((res) => {
       setApiEndpoint(res);
     });
+
+    return () => {
+      if (controller.current) controller.current.abort();
+    };
   }, []);
 
   const flipCamera = async () => {
@@ -125,17 +145,18 @@ export default function Live({ navigation }) {
           marginY="auto"
           width={"full"}
           flexDir={"row"}
-          height={"24"}
+          height={"32"}
           position={"absolute"}
           bottom="0"
           bgColor={"black"}
           zIndex={10}
         >
           <Text
-            fontSize={"7xl"}
+            fontSize={predictionFontSize}
             fontWeight={"semibold"}
             color="lightBlue.400"
-            lineHeight={"sm"}
+            lineHeight={"xs"}
+            textAlign={"center"}
           >
             {prediction}
           </Text>

@@ -4,14 +4,62 @@ from ultralytics import YOLO
 import numpy as np
 import cv2
 import base64
+from phrases import check_if_phrase
 
 model = YOLO('./model.pt')
 
 app = FastAPI()
 
-names = ['A', 'B', 'Boss', 'C', 'D', 'E', 'F', 'Father', 'G', 'Good', 'H', 'I', 'I love you', 'J', 'K', 'L', 'M', 'Me', 'Mine',
-         'Mother', 'N', 'O', 'P', 'Q', 'Quiet', 'R', 'S', 'Serious', 'T', 'Think', 'This', 'U', 'V', 'W', 'Wait', 'Water', 'X', 'Y', 'You', 'Z']
-
+names =   [
+    "A",
+    "Afternoon",
+    "Are",
+    "B",
+    "Boss",
+    "C",
+    "D",
+    "E",
+    "F",
+    "Father",
+    "G",
+    "Give",
+    "Good",
+    "H",
+    "Hello",
+    "How",
+    "I_love_you",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "Me",
+    "Mine",
+    "Morning",
+    "Mother",
+    "N",
+    "Night",
+    "O",
+    "P",
+    "Q",
+    "Quiet",
+    "R",
+    "S",
+    "See",
+    "Serious",
+    "T",
+    "Think",
+    "This",
+    "U",
+    "V",
+    "W",
+    "Wait",
+    "Water",
+    "X",
+    "Y",
+    "You",
+    "Z",
+  ]
 
 @app.get("/")
 def index():
@@ -29,6 +77,8 @@ async def predict(file: Request):
     classes = results[0].boxes.cls
 
     name = names[int(classes[0])] if len(classes) > 0 else ""
-    print("class", name)
+    name = check_if_phrase(name)
+
+    print("Predicted class: ", name)
 
     return {"class": name}
