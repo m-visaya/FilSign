@@ -19,6 +19,7 @@ phrases = {
     "You_Are_Good": "You are good",
     "Wait_Boss": "Wait boss",
     "Are_You_Good": "Are you good?",
+    "Are": "Are",
     "You": "You",
     "Me": "Me",
     "Mine": "Mine",
@@ -45,14 +46,9 @@ predictions_list = []
 
 def check_if_phrase(class_name):
     global predictions_list
-    if len(class_name) < 2:
-        return class_name
-
-    if class_name == "":
+    if len(class_name) < 2 and class_name != "I":
         return class_name
     
-    print(predictions_list)
-
     if class_name in predictions_list:
         predictions_list.remove(class_name)
 
@@ -72,8 +68,6 @@ def check_if_phrase(class_name):
         if max_phrase != result:
             predictions_list = []
         result = max_phrase
-
-    print(predictions_list)
 
     return result
 
