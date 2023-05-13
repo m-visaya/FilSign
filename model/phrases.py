@@ -19,6 +19,7 @@ phrases = {
     "You_Are_Good": "You are good",
     "Wait_Boss": "Wait boss",
     "Are_You_Good": "Are you good?",
+    "I": "I",
     "Are": "Are",
     "You": "You",
     "Me": "Me",
